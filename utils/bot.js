@@ -8,6 +8,7 @@ const moment = require('moment-timezone');
 let job;
 let bot;
 
+let status = "Not Running"
 
 
 function getTime(unixTimestamp) {
@@ -65,7 +66,10 @@ function getMessage(data, userName){
 }
 
 const StopBot = () =>{
-    if(job) job.stop();;
+    if(job) {
+        job.stop();
+        status = "Not Running"
+    }
 }
 const StartBot = (apiKey) => {
 
@@ -120,14 +124,10 @@ const UpdateCronJob = (cronExp, weatherApiKey) => {
             throw e;
         }
     });
-
+    status = "Running";
     job.start();
 }
-const Status = () => {
-
-    if(bot) return "Running";
-    else return "Not Running";
-}
+const Status = () => status;
 module.exports = {
     StartBot,
     UpdateCronJob,
